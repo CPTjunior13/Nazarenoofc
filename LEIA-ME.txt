@@ -1,0 +1,36 @@
+NAZARENO OFICIAL - COMO GERAR O APK PELO GITHUB (grátis)
+
+O QUE TEM AQUI (envie TODOS estes arquivos para o repositório, na raiz, sem pastas):
+- index.html, manifest.json, sw.js, config.js ........ o app
+- icon-*.png, splash*.png ............................ ícones e tela de abertura
+- package.json, capacitor.config.json ................ configuração do APK (nome Nazareno Oficial, pacote com.nazareno.oficial)
+- patch-android.py ................................... ajustes do Android (login Google e tela cheia)
+- debug.keystore ..................................... chave fixa: faz as atualizações instalarem por cima, sem perder nada
+- build-apk.yml ...................................... o SCRIPT que gera o APK (precisa ficar em .github/workflows/)
+- supabase-setup.sql ................................. (opcional) backup na nuvem
+
+PASSO A PASSO
+1. Entre em github.com, crie uma conta e clique em "New repository". Nome: nazareno-oficial. Marque PRIVATE (privado), por causa da chave debug.keystore.
+2. Clique em "uploading an existing file" (ou Add file > Upload files) e envie todos os arquivos acima. No computador, arraste a pasta inteira (já vai com a pasta .github). Clique em Commit changes.
+3. Se o script não foi junto (acontece no celular, que não envia pastas):
+   Add file > Create new file. No nome digite exatamente:  .github/workflows/build-apk.yml
+   Abra o arquivo build-apk.yml deste pacote, copie todo o texto, cole e clique em Commit changes.
+4. Abra a aba Actions. Clique em "Gerar APK" > Run workflow > Run workflow (ele também roda sozinho a cada envio).
+5. Espere de 8 a 15 minutos na primeira vez (bolinha amarela = rodando, verde = pronto).
+6. Clique na execução concluída. Em "Artifacts", baixe nazareno-oficial-apk. Extraia o ZIP: dentro está o app-debug.apk.
+7. Copie o APK para o aparelho e instale (permita "instalar de fontes desconhecidas").
+
+COMO ATUALIZAR O APP DEPOIS
+- Envie o index.html novo para o repositório (Add file > Upload files, mesmo nome, Commit). O GitHub gera outro APK sozinho.
+- Instale o novo APK por cima do antigo. Como a chave é a mesma, as músicas guardadas no aparelho continuam.
+
+BACKUP NA NUVEM E LOGIN COM GOOGLE (opcional)
+- Siga o guia do Supabase (supabase-setup.sql + config.js com a URL e a chave anon).
+- Para o botão "Entrar com o Google" funcionar no APK, no Supabase vá em Authentication > URL Configuration > Redirect URLs e adicione também:
+  com.nazareno.oficial://login
+
+AVISOS HONESTOS
+- Este APK roda o app dentro do WebView do Android. Os botões do volante/Bluetooth e os controles na tela de bloqueio podem não funcionar como no Chrome. Teste no carro. Se isso for essencial, o caminho é gerar o APK pelo PWABuilder (usa o Chrome), que continuo podendo detalhar.
+- O login com o Google no APK usa o navegador do sistema e volta para o app pelo link com.nazareno.oficial://login. Não consegui testar isso num aparelho real.
+- O APK gerado é de teste (debug): serve para instalar e usar, mas não para publicar na Play Store. Para a loja é preciso um arquivo AAB assinado com outra chave.
+- Se o Actions falhar, abra a execução com ícone vermelho e me mande o texto do erro.

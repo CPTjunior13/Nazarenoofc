@@ -1,0 +1,6 @@
+{
+  "appId": "com.nazareno.oficial",
+  "appName": "Nazareno Oficial",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}
